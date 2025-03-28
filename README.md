@@ -1,6 +1,18 @@
-# Azure Simple VM Terraform Module Example
+# Azure Blitz Deploy - Module Examples
 
-This repository provides an example Terraform configuration demonstrating how to use the `azure-vm-module` to deploy a simple Linux Virtual Machine (VM) on Microsoft Azure.
+This repository provides example Terraform configurations demonstrating how to use various modules designed for rapid Azure resource deployment.
+
+Currently, the primary example showcases the `azure-vm-module` for deploying a simple Linux Virtual Machine (VM) on Microsoft Azure.
+
+Key points about this initial Linux VM example:
+
+* **Focus:** Demonstrates a basic deployment scenario using the `azure-vm-module`.
+* **State Management:** It utilizes local Terraform state and **does not configure remote state**. This is suitable for quick testing or individual use but should be adapted for team collaboration or production environments.
+* **Module Location:** Assumes the `azure-vm-module` is located in a directory relative to this example's configuration files (i.e., `../modules/azure-vm-module`).
+
+Stay tuned! More examples, potentially covering different modules and more complex scenarios within the "Azure Blitz Deploy" scope, will be added to this repository over time.
+
+---
 
 ## Overview
 
