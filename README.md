@@ -129,7 +129,7 @@ Follow these steps to deploy the Azure VM using this example:
     * **Example using the generated key:**
     ```bash
     # Assuming the generated key was named 'id_rsa_test_proper_panda' and is in the current directory:
-    ssh -i ./id_rsa_test_proper_panda testadmin@20.115.30.45
+    ssh -i ./id_rsa_test_proper_panda testadmin@<vm_public_ip_output_value>
     ```
 
 8.  **Clean Up Resources:**
@@ -138,7 +138,7 @@ Follow these steps to deploy the Azure VM using this example:
     ```bash
     terraform destroy
     ```
-    * Terraform will prompt for confirmation; type `yes` and press Enter.
+    * Terraform will prompt for confirmation; type `yes` and press Enter. (note: destroy also removes the SSH key files in the directory.)
 
 ## Inputs
 
@@ -158,7 +158,7 @@ Follow these steps to deploy the Azure VM using this example:
 
 | Name             | Description                                    | Value Example        |
 | :--------------- | :--------------------------------------------- | :------------------- |
-| `vm_public_ip`   | The public IP address assigned to the deployed VM. | `"20.10.50.100"`     |
+| `vm_public_ip`   | The public IP address assigned to the deployed VM. | `"<vm_public_ip_output_value>"`     |
 
 *(Note: Refer to the `azure-vm-module`'s own documentation/outputs.tf for the definitive list of all available outputs.)*
 
