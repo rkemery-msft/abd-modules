@@ -107,14 +107,30 @@ Follow these steps to deploy the Azure VM using this example:
     ```
     * Terraform will prompt for confirmation; type `yes` and press Enter.
 
+    ✨ **Important Note on SSH Key Generation:** ✨
+    * During the `apply` process, the underlying `azure-vm-module` **automatically generates a new SSH key pair** specifically for this deployment using Azure's key generation service (`Microsoft.Compute/sshPublicKeys`).
+    * The **private key** (essential for logging in) is automatically saved as a file directly into the **current directory** (the one where you ran `terraform apply`).
+    * The private key filename will follow the pattern: `id_rsa_<name_prefix>_<random_id>` (e.g., `id_rsa_test_proper_panda`). You will need this filename in the next step.
+    * This file is created with secure permissions (`0600`). **Treat this private key file as sensitive and keep it secure!**
+    * The corresponding public key is automatically installed on the Azure VM for the specified `admin_username` (e.g., `testadmin`). Password authentication is disabled on the VM, requiring key-based login.
+    * A copy of the public key is also saved locally with a `.pub` extension (e.g., `id_rsa_test_proper_panda.pub`), though you typically only need the private key file for connection.
+
 7.  **Access the VM:**
-    * Once the deployment is complete, Terraform will display the outputs defined in the configuration.
-    * Use the `vm_public_ip` output value to connect to your VM via SSH. You will typically use the admin username (either the default from the module or the one you specified) and the SSH key pair associated with the deployment (the `azure-vm-module` likely handles SSH key creation or requires a public key input).
+    * Once the deployment is complete, Terraform will display the outputs, including the `vm_public_ip`.
+    * Use the **private key file generated in the previous step** with the `ssh` command's `-i` flag to connect to your VM:
 
     ```bash
-    ssh <admin_username>@<vm_public_ip_output_value>
+    # Replace <admin_username> with the one used (e.g., testadmin or your custom one)
+    # Replace <path_to_private_key_file> with the actual path/filename saved in your current directory
+    # Replace <vm_public_ip_output_value> with the IP address from Terraform output
+
+    ssh -i <path_to_private_key_file> <admin_username>@<vm_public_ip_output_value>
     ```
-    *(Note: Check the `azure-vm-module` documentation for specifics on admin username defaults and SSH key handling.)*
+    * **Example using the generated key:**
+    ```bash
+    # Assuming the generated key was named 'id_rsa_test_proper_panda' and is in the current directory:
+    ssh -i ./id_rsa_test_proper_panda testadmin@20.115.30.45
+    ```
 
 8.  **Clean Up Resources:**
     * When you no longer need the deployed resources, you can destroy them using Terraform.
